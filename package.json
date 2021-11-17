@@ -15,5 +15,17 @@
   "bugs": {
     "url": "https://github.com/Den15UrsaMajor/ReviewsAPI/issues"
   },
-  "homepage": "https://github.com/Den15UrsaMajor/ReviewsAPI#readme"
+  "homepage": "https://github.com/Den15UrsaMajor/ReviewsAPI#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "csvtojson": "^2.0.10",
+    "express": "^4.17.1",
+    "mongodb": "^4.1.4",
+    "mongoose": "^5.13.12"
+  },
+  "devDependencies": {
+    "eslint": "^8.2.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.25.3"
+  }
 }
