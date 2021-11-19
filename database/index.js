@@ -17,12 +17,12 @@ const resultsSchema = mongoose.Schema({
   _id: ObjectID,
   product_id: Number,
   rating: Number,
-  summary: Text,
+  summary: String,
   recommended: Boolean,
-  response: Text,
-  body: Text,
+  response: String,
+  body: String,
   date: Date,
-  reviewer_name: Text,
+  reviewer_name: String,
   helpfulness: Number,
 });
 
@@ -39,7 +39,7 @@ const characteristicsSchema = mongoose.Schema({
 const photosSchema = mongoose.Schema({
   _id: ObjectID,
   review_id: Number,
-  url: Text,
+  url: String,
 });
 
 const reviewsSchema = mongoose.Schema({
@@ -49,3 +49,34 @@ const reviewsSchema = mongoose.Schema({
   characteristics: [characteristicsSchema],
   photos: [photosSchema],
 });
+
+// * TODO * //
+// set up your mongoose model(s) //
+
+const Review = mongoose.model('Review', resultsSchema);
+const Photo = mongoose.model('Photo', photosSchema);
+const Characteristic = mongoose.model('Characteristic', characteristicsSchema);
+const Result = mongoose.model('Result', resultsSchema);
+
+const findOne = () => Review.find({ product_id: 1 }, (err, doc) => {
+  if (err) throw err;
+  return doc;
+});
+
+const findPhotos = () => Photo.find({ review_id: 5 }, (err, doc) => {
+  if (err) throw err;
+  return doc;
+});
+
+const findChars = () => Characteristic.find({ product_id: 1 }, (err, doc) => {
+  if (err) throw err;
+  return doc;
+});
+
+// const makeABigFuckinObject = (id) => {
+//   Review.find({ product_id: id }), ()
+// }
+
+module.exports.findOne = findOne;
+module.exports.findPhotos = findPhotos;
+module.exports.findChars = findChars;
