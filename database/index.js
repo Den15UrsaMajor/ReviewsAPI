@@ -67,9 +67,13 @@ const getMetaReviews = (id) => Characteristic.aggregate([
       as: 'values',
     },
   }]);
-
+// Individual fetch functions
 const findOneProduct = (id) => Review.find({ product_id: id });
+const findOneCharacteristicSet = (id) => Characteristic.find({ product_id: id });
+const findOnePhotoSet = (id) => Photo.find({ review_id: id });
 
 module.exports.getProductReviews = getProductReviews;
 module.exports.getMetaReviews = getMetaReviews;
 module.exports.findOneProduct = findOneProduct;
+module.exports.findOneCharacteristicSet = findOneCharacteristicSet;
+module.exports.findOnePhotoSet = findOnePhotoSet;
