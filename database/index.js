@@ -20,6 +20,14 @@ const characteristicsSchema = mongoose.Schema({
   id: Number,
 });
 
+const charSchema = mongoose.Schema({
+  _id: ObjectID,
+  id: Number,
+  characteristic_id: Number,
+  review_id: Number,
+  value: Number,
+});
+
 const photosSchema = mongoose.Schema({
   _id: ObjectID,
   review_id: Number,
@@ -42,6 +50,7 @@ const resultsSchema = mongoose.Schema({
 const Review = mongoose.model('Review', resultsSchema, 'reviews');
 const Photo = mongoose.model('Photo', photosSchema, 'photos');
 const Characteristic = mongoose.model('Characteristic', characteristicsSchema, 'characteristics');
+const CharReview = mongoose.model('Characteristic Review', charSchema, 'characteristic_reviews');
 
 // Fetch all reviews for a given product and attach any associated photos
 const getProductReviews = (id) => Review.aggregate([
@@ -70,8 +79,10 @@ const getMetaReviews = (id) => Characteristic.aggregate([
 const findOneProduct = (id) => Review.find({ product_id: id });
 const findOneCharacteristicSet = (id) => Characteristic.find({ product_id: id });
 const findOnePhotoSet = (id) => Photo.find({ review_id: id });
+const findCharacteristicReviews = (id) => CharReview.find({ characteristic_id: id });
 
 // Post functions for different collections
+// TODO: finish these functions
 const saveToReviews = async (data) => {
   const doc = new Review();
   doc._id = mongoose.Types.ObjectId();
@@ -82,13 +93,13 @@ const saveToReviews = async (data) => {
   doc.recommend = data.recommend;
   doc.reviewer_name = data.name;
   doc.reviewer_email = data.email;
-  doc.save();
+  // doc.save();
 };
 const saveToPhotos = (data) => {
   console.log('data in photos ', data);
 };
-const saveToCharacteristics = (data) => {
-  console.log('data from chars ', data);
+const saveToCharacteristics = (reviews) => {
+  console.log('data from chars ', reviews);
 };
 module.exports.getProductReviews = getProductReviews;
 module.exports.getMetaReviews = getMetaReviews;
@@ -98,3 +109,4 @@ module.exports.findOnePhotoSet = findOnePhotoSet;
 module.exports.saveToReviews = saveToReviews;
 module.exports.saveToPhotos = saveToPhotos;
 module.exports.saveToCharacteristics = saveToCharacteristics;
+module.exports.findCharacteristicReviews = findCharacteristicReviews;

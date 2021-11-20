@@ -70,12 +70,15 @@ app.get('/reviews/meta/', async (req, res) => {
   });
   res.send(metadata);
 });
-
+// TODO: finish post and put
 app.post('/reviews', async (req, res) => {
   const id = parseInt(req.body.product_id, 10);
-  const charSet = await mongo.findOneCharacteristicSet(id);
   const data = req.body;
+  const { characteristics } = data;
+
   mongo.saveToReviews(data);
+  mongo.saveToCharacteristics(characteristics);
+
   // console.log('charset ', charSet);
   // Fit/Length/Comfort/Quality
   res.send('all good bro');
