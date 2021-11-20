@@ -58,25 +58,27 @@ const Photo = mongoose.model('Photo', photosSchema);
 const Characteristic = mongoose.model('Characteristic', characteristicsSchema);
 const Result = mongoose.model('Result', resultsSchema);
 
-const findOne = () => Review.find({ product_id: 1 }, (err, doc) => {
-  if (err) throw err;
-  return doc;
-});
+const getProductReviews = (ID) => Review.aggregate([
+  { $match: { product_id: ID } },
+  {
+    $lookup: {
+      from: 'photos',
+      localField: 'review_id',
+      foreignField: 'review_id',
+      as: 'photos',
+    },
+  }]);
 
-const findPhotos = () => Photo.find({ review_id: 5 }, (err, doc) => {
-  if (err) throw err;
-  return doc;
-});
+const getMetaReviews = (ID) => Characteristic.aggregate([
+  { $match: { product_id: ID } },
+  {
+    $lookup: {
+      from: 'characteristic_reviews',
+      localField: 'id',
+      foreignField: 'characteristic_id',
+      as: 'values',
+    },
+  }]);
 
-const findChars = () => Characteristic.find({ product_id: 1 }, (err, doc) => {
-  if (err) throw err;
-  return doc;
-});
-
-// const makeABigFuckinObject = (id) => {
-//   Review.find({ product_id: id }), ()
-// }
-
-module.exports.findOne = findOne;
-module.exports.findPhotos = findPhotos;
-module.exports.findChars = findChars;
+module.exports.getProductReviews = getProductReviews;
+module.exports.getMetaReviews = getMetaReviews;
