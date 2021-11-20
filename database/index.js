@@ -13,27 +13,10 @@ db.once('open', () => {
   console.log('connected successfully');
 });
 
-const resultsSchema = mongoose.Schema({
-  _id: ObjectID,
-  product_id: Number,
-  rating: Number,
-  summary: String,
-  recommended: Boolean,
-  response: String,
-  body: String,
-  date: Date,
-  reviewer_name: String,
-  helpfulness: Number,
-});
-
 const characteristicsSchema = mongoose.Schema({
   _id: ObjectID,
   product_id: Number,
-  review_id: Number,
-  fit: Number,
-  length: Number,
-  comfort: Number,
-  quality: Number,
+  id: Number,
 });
 
 const photosSchema = mongoose.Schema({
@@ -42,24 +25,28 @@ const photosSchema = mongoose.Schema({
   url: String,
 });
 
-const reviewsSchema = mongoose.Schema({
+const resultsSchema = mongoose.Schema({
   _id: ObjectID,
   product_id: Number,
-  results: [resultsSchema],
-  characteristics: [characteristicsSchema],
+  rating: Number,
+  summary: String,
+  body: String,
+  recommend: Boolean,
+  date: Date,
+  reviewer_name: String,
+  reviewer_email: String,
+  helpfulness: Number,
   photos: [photosSchema],
+  characteristics: {},
 });
-
-// * TODO * //
-// set up your mongoose model(s) //
 
 const Review = mongoose.model('Review', resultsSchema);
 const Photo = mongoose.model('Photo', photosSchema);
 const Characteristic = mongoose.model('Characteristic', characteristicsSchema);
-const Result = mongoose.model('Result', resultsSchema);
 
-const getProductReviews = (ID) => Review.aggregate([
-  { $match: { product_id: ID } },
+// Fetch all reviews for a given product and attach any associated photos
+const getProductReviews = (id) => Review.aggregate([
+  { $match: { product_id: id } },
   {
     $lookup: {
       from: 'photos',
@@ -69,8 +56,9 @@ const getProductReviews = (ID) => Review.aggregate([
     },
   }]);
 
-const getMetaReviews = (ID) => Characteristic.aggregate([
-  { $match: { product_id: ID } },
+// Fetch data on characteristics for transformation as part of the meta data
+const getMetaReviews = (id) => Characteristic.aggregate([
+  { $match: { product_id: id } },
   {
     $lookup: {
       from: 'characteristic_reviews',
@@ -80,5 +68,8 @@ const getMetaReviews = (ID) => Characteristic.aggregate([
     },
   }]);
 
+const findOneProduct = (id) => Review.find({ product_id: id });
+
 module.exports.getProductReviews = getProductReviews;
 module.exports.getMetaReviews = getMetaReviews;
+module.exports.findOneProduct = findOneProduct;
