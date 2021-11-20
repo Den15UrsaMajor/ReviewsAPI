@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 const { ObjectID } = require('mongodb/node_modules/bson');
 const mongoose = require('mongoose');
 
@@ -36,13 +37,11 @@ const resultsSchema = mongoose.Schema({
   reviewer_name: String,
   reviewer_email: String,
   helpfulness: Number,
-  photos: [photosSchema],
-  characteristics: {},
 });
 
-const Review = mongoose.model('Review', resultsSchema);
-const Photo = mongoose.model('Photo', photosSchema);
-const Characteristic = mongoose.model('Characteristic', characteristicsSchema);
+const Review = mongoose.model('Review', resultsSchema, 'reviews');
+const Photo = mongoose.model('Photo', photosSchema, 'photos');
+const Characteristic = mongoose.model('Characteristic', characteristicsSchema, 'characteristics');
 
 // Fetch all reviews for a given product and attach any associated photos
 const getProductReviews = (id) => Review.aggregate([
@@ -72,8 +71,30 @@ const findOneProduct = (id) => Review.find({ product_id: id });
 const findOneCharacteristicSet = (id) => Characteristic.find({ product_id: id });
 const findOnePhotoSet = (id) => Photo.find({ review_id: id });
 
+// Post functions for different collections
+const saveToReviews = async (data) => {
+  const doc = new Review();
+  doc._id = mongoose.Types.ObjectId();
+  doc.product_id = data.product_id;
+  doc.rating = data.rating;
+  doc.summary = data.summary;
+  doc.body = data.body;
+  doc.recommend = data.recommend;
+  doc.reviewer_name = data.name;
+  doc.reviewer_email = data.email;
+  doc.save();
+};
+const saveToPhotos = (data) => {
+  console.log('data in photos ', data);
+};
+const saveToCharacteristics = (data) => {
+  console.log('data from chars ', data);
+};
 module.exports.getProductReviews = getProductReviews;
 module.exports.getMetaReviews = getMetaReviews;
 module.exports.findOneProduct = findOneProduct;
 module.exports.findOneCharacteristicSet = findOneCharacteristicSet;
 module.exports.findOnePhotoSet = findOnePhotoSet;
+module.exports.saveToReviews = saveToReviews;
+module.exports.saveToPhotos = saveToPhotos;
+module.exports.saveToCharacteristics = saveToCharacteristics;

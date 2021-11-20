@@ -7,7 +7,7 @@ const mongo = require('../database/index.js');
 const app = express();
 app.use(express.static(path.join(__dirname, '../client/dist')));
 app.use(express.json());
-
+// Get function for reviews/photos object
 app.get('/reviews/', async (req, res) => {
   const { product_id } = req.query;
   const id = parseInt(product_id, 10);
@@ -17,7 +17,7 @@ app.get('/reviews/', async (req, res) => {
   }
   res.send(data);
 });
-
+// Get function for reviews metadata
 app.get('/reviews/meta/', async (req, res) => {
   const { product_id } = req.query;
   const id = parseInt(product_id, 10);
@@ -26,7 +26,8 @@ app.get('/reviews/meta/', async (req, res) => {
   const metadata = {
     ratings: {},
     recommended: {
-      0: 0,
+      true: 0,
+      false: 0,
     },
     characteristics: {},
   };
@@ -42,8 +43,10 @@ app.get('/reviews/meta/', async (req, res) => {
     } else {
       metadata.ratings[key] += 1;
     }
-    if (bool === 'true') {
-      metadata.recommended[0] += 1;
+    if (bool === true) {
+      metadata.recommended.true += 1;
+    } else if (bool === false) {
+      metadata.recommended.false += 1;
     }
   });
   // populate characteristic reviews
@@ -68,9 +71,13 @@ app.get('/reviews/meta/', async (req, res) => {
   res.send(metadata);
 });
 
-app.post('/reviews', (req, res) => {
-  console.log(req.body);
-  console.log(typeof (req.body.photos), req.body.photos.length);
+app.post('/reviews', async (req, res) => {
+  const id = parseInt(req.body.product_id, 10);
+  const charSet = await mongo.findOneCharacteristicSet(id);
+  const data = req.body;
+  mongo.saveToReviews(data);
+  // console.log('charset ', charSet);
+  // Fit/Length/Comfort/Quality
   res.send('all good bro');
 });
 
