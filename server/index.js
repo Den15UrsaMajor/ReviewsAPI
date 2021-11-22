@@ -2,11 +2,14 @@
 /* eslint-disable camelcase */
 const express = require('express');
 const path = require('path');
+const axios = require('axios');
 const mongo = require('../database/index.js');
+const { API_URL, API_KEY } = require('../../hr-den15-project-catwalk/config.js');
 
 const app = express();
-app.use(express.static(path.join(__dirname, '../client/dist')));
+app.use(express.static('../../hr-den15-project-catwalk/client/dist/'));
 app.use(express.json());
+
 // Get function for reviews/photos object
 app.get('/reviews/', async (req, res) => {
   const { product_id } = req.query;
@@ -75,13 +78,14 @@ app.post('/reviews', async (req, res) => {
   const id = parseInt(req.body.product_id, 10);
   const data = req.body;
   const { characteristics } = data;
+  const { photos } = data;
 
   mongo.saveToReviews(data);
+  if (photos) {
+    mongo.saveToPhotos(photos);
+  }
   mongo.saveToCharacteristics(characteristics);
-
-  // console.log('charset ', charSet);
-  // Fit/Length/Comfort/Quality
-  res.send('all good bro');
+  res.send('document saved');
 });
 
 app.listen(3887, () => {
