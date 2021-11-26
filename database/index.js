@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-underscore-dangle */
 const { ObjectID } = require('mongodb/node_modules/bson');
@@ -68,7 +69,8 @@ const getProductReviews = (id) => Review.aggregate([
     },
   }]);
 
-// Fetch data on characteristics for transformation as part of the meta data
+// Fetch data on characteristics for transformation as part of the meta data\
+// TODO handle for invalid search parameters
 const getMetaReviews = (id) => Characteristic.aggregate([
   { $match: { product_id: id } },
   {
@@ -86,7 +88,9 @@ const findOnePhotoSet = (id) => Photo.find({ review_id: id });
 const findCharacteristicReviews = (id) => CharReview.find({ characteristic_id: id });
 
 // Post functions for different collections
-// TODO: finish these functions
+/**
+ * @TODO: finish these functions
+*/
 const saveToReviews = async (data) => {
   const last = await Review.find({}).sort({ review_id: -1 }).limit(1);
   const { review_id } = last[0];
