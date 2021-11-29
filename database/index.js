@@ -107,7 +107,7 @@ const saveToReviews = async (data) => {
   doc.reviewer_name = data.name;
   doc.reviewer_email = data.email;
 
-  doc.save();
+  // doc.save();
 };
 const saveToPhotos = async (photos) => {
   const last = await Review.find({}).sort({ review_id: -1 }).limit(1);
@@ -132,7 +132,7 @@ const saveToCharacteristics = async (characteristics) => {
     doc.id = id += 1;
     doc.review_id = key;
     doc.value = characteristics[key];
-    doc.save;
+    doc.save();
   });
 };
 

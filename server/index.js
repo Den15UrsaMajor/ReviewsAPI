@@ -3,7 +3,6 @@
 const express = require('express');
 const path = require('path');
 const mongo = require('../database/index.js');
-const { API_URL, API_KEY } = require('../../hr-den15-project-catwalk/config.js');
 
 const app = express();
 app.use(express.static('../../hr-den15-project-catwalk/client/dist/'));
@@ -35,8 +34,6 @@ app.get('/reviews/meta/', async (req, res) => {
   };
   // populate ratings and recommendation totals
   reviews.forEach((fakeObject) => {
-    console.log(fakeObject);
-    console.log(fakeObject.recommend);
     // https://stackoverflow.com/questions/18710043/mongoose-mongodb-result-fields-appear-undefined-in-javascript
     const obj = fakeObject.toObject();
     const key = obj.rating;
