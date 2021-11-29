@@ -107,7 +107,7 @@ const saveToReviews = async (data) => {
   doc.reviewer_name = data.name;
   doc.reviewer_email = data.email;
 
-  // doc.save();
+  doc.save();
 };
 const saveToPhotos = async (photos) => {
   const last = await Review.find({}).sort({ review_id: -1 }).limit(1);
@@ -115,8 +115,8 @@ const saveToPhotos = async (photos) => {
   for (let i = 0; i < photos.length; i += 1) {
     const doc = new Photo();
     doc._id = mongoose.Types.ObjectId();
-    doc.id = i + 1,
-    doc.review_id = review_id + 1,
+    doc.id = i + 1;
+    doc.review_id = review_id + 1;
     doc.url = photos[i];
     doc.save();
   }
@@ -124,12 +124,12 @@ const saveToPhotos = async (photos) => {
 const saveToCharacteristics = async (characteristics) => {
   const last = await CharReview.find({}).sort({ _id: -1 }).limit(1);
 
-  let { id } = last[0];
+  const { id } = last[0];
   const keys = Object.keys(characteristics);
   keys.forEach((key) => {
     const doc = new CharReview();
     doc._id = mongoose.Types.ObjectId();
-    doc.id = id += 1;
+    doc.id = id + 1;
     doc.review_id = key;
     doc.value = characteristics[key];
     doc.save();
