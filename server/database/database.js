@@ -40,7 +40,7 @@ const resultsSchema = mongoose.Schema({
   review_id: Number,
 });
 
-mongoose.connect('mongodb://sdc-mongo:27017/', {
+mongoose.connect('mongodb://sdc-mongo:27017/sdc', {
   useNewUrlParser: true,
   useFindAndModify: false,
   useUnifiedTopology: true,
@@ -56,6 +56,8 @@ const Review = mongoose.model('Review', resultsSchema, 'reviews');
 const Photo = mongoose.model('Photo', photosSchema, 'photos');
 const Characteristic = mongoose.model('Characteristic', characteristicsSchema, 'characteristics');
 const CharReview = mongoose.model('Characteristic Review', charSchema, 'characteristic_reviews');
+
+console.log('all of the models: ', Review, Photo, Characteristic, CharReview);
 
 // Fetch all reviews for a given product and attach any associated photos
 const getProductReviews = (id) => Review.aggregate([
