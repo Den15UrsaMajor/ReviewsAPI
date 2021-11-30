@@ -1,0 +1,34 @@
+{
+  "name": "package.json",
+  "version": "1.0.0",
+  "description": "Reviews API",
+  "main": "server/index.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Den15UrsaMajor/ReviewsAPI.git"
+  },
+  "author": "Jack Dowling",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Den15UrsaMajor/ReviewsAPI/issues"
+  },
+  "homepage": "https://github.com/Den15UrsaMajor/ReviewsAPI#readme",
+  "dependencies": {
+    "axios": "^0.24.0",
+    "body-parser": "^1.19.0",
+    "csvtojson": "^2.0.10",
+    "express": "^4.17.1",
+    "mongodb": "^4.1.4",
+    "mongoose": "^5.13.12",
+    "nodemon": "^2.0.15"
+  },
+  "devDependencies": {
+    "eslint": "^8.2.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.25.3"
+  }
+}
