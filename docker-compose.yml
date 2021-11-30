@@ -10,11 +10,18 @@ services:
     build:
       context: .
       dockerfile: mongo.Dockerfile
+    volumes:
+      - reviewData:/data/db
+
   node:
     image: sdc-node
     container_name: sdc-node
+    depends_on:
+      - mongo
     ports:
       - 3000:3887
     build:
       context: .
       dockerfile: node.Dockerfile
+volumes: 
+  reviewData:

@@ -4,18 +4,6 @@
 const { ObjectID } = require('mongodb/node_modules/bson');
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://sdc-mongo:27017/reviewsAPI', {
-  useNewUrlParser: true,
-  useFindAndModify: false,
-  useUnifiedTopology: true,
-});
-
-const db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error'));
-db.once('open', () => {
-  console.log('connected successfully');
-});
-
 const characteristicsSchema = mongoose.Schema({
   _id: ObjectID,
   product_id: Number,
@@ -50,6 +38,18 @@ const resultsSchema = mongoose.Schema({
   response: { type: String, default: null },
   helpfulness: Number,
   review_id: Number,
+});
+
+mongoose.connect('mongodb://sdc-mongo:27017/', {
+  useNewUrlParser: true,
+  useFindAndModify: false,
+  useUnifiedTopology: true,
+});
+
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error'));
+db.once('open', () => {
+  console.log('connected successfully');
 });
 
 const Review = mongoose.model('Review', resultsSchema, 'reviews');

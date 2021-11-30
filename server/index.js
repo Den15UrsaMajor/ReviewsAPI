@@ -2,7 +2,7 @@
 /* eslint-disable camelcase */
 const express = require('express');
 const path = require('path');
-const mongo = require('../database/index.js');
+const mongo = require('./database/database.js');
 
 const app = express();
 app.use(express.static('../../hr-den15-project-catwalk/client/dist/'));
