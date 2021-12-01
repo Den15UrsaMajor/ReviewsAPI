@@ -4,3 +4,4 @@ config.js
 .DS_Store
 ** bundle.js
 **/reviewCSV
+sdcMongo.pem
